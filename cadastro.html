@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Conta - Aluguel de Roupas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="Imagens/favicon.jpeg" type="image/png">
+    <style>
+    :root {
+      --cor-bg: #f8f9fa;
+      --cor-card: #fff;
+      --cor-principal: #0d6efd;
+      --cor-destaque: #0b5ed7;
+      --cor-texto: #212529;
+    }
+    body { 
+        font-family: Arial, sans-serif; 
+        background: var(--cor-bg); 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+    }
+    .container {
+        background: var(--cor-bg);
+        padding: 32px 24px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button {
+        width: 100%;
+        background: var(--cor-principal);
+        color: var(--cor-texto);
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: var(--cor-destaque);
+    }
+    .login-link {
+        text-align: center;
+        margin-top: 16px;
+    }
+    .login-link a {
+        color: var(--cor-principal);
+        text-decoration: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Criar Conta</h2>
+        <form action="PHP/cadastro.php" method="post">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" name="nome" required autocomplete="name" aria-label="Nome Completo">
+
+            <label for="usuario">Usuário</label>
+            <input type="text" id="usuario" name="usuario" required autocomplete="username" aria-label="Usuário">
+
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" minlength="6" required autocomplete="new-password" aria-label="Senha">
+
+            <label for="confirmar_senha">Confirmar Senha</label>
+            <input type="password" id="confirmar_senha" name="confirmar_senha" minlength="6" required autocomplete="new-password" aria-label="Confirmar Senha">
+
+            <label for="perfil">Perfil</label>
+            <select id="perfil" name="perfil" required>
+                <option value="">Selecione</option>
+                <option value="cliente">Cliente</option>
+                <option value="lojista">Lojista</option>
+            </select>
+
+            <div id="campo-senha-admin" style="display:none;">
+                <label for="senha_admin">Senha de Administrador</label>
+                <input type="password" id="senha_admin" name="senha_admin" autocomplete="off">
+            </div>
+
+            <button type="submit">Criar Conta</button>
+        </form>
+        <div class="login-link">
+            Já tem uma conta? <a href="login.html">Entrar</a>
+        </div>
+    </div>
+    <script>
+    const perfil = document.getElementById('perfil');
+    const campoSenhaAdmin = document.getElementById('campo-senha-admin');
+    perfil.addEventListener('change', function() {
+      if (this.value === 'lojista') {
+        campoSenhaAdmin.style.display = '';
+        document.getElementById('senha_admin').setAttribute('required', 'required');
+      } else {
+        campoSenhaAdmin.style.display = 'none';
+        document.getElementById('senha_admin').removeAttribute('required');
+      }
+    });
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const senha = document.getElementById('senha').value;
+      const confirmar = document.getElementById('confirmar_senha').value;
+      if (senha !== confirmar) {
+        alert('As senhas não coincidem!');
+        e.preventDefault();
+        return;
+      }
+      if (perfil.value === 'lojista') {
+        const senhaAdmin = document.getElementById('senha_admin').value;
+        if (senhaAdmin !== 'Senai2DA@2025#7') {
+          alert('Senha de administrador incorreta!');
+          e.preventDefault();
+          return;
+        }
+      }
+    });
+    </script>
+</body>
+</html>
